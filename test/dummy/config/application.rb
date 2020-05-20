@@ -3,7 +3,7 @@ require_relative 'boot'
 require 'rails/all'
 
 Bundler.require(*Rails.groups)
-require "alexa"
+require "alexa-rails"
 
 module Dummy
   class Application < Rails::Application
