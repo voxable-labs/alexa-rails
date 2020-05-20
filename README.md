@@ -1,4 +1,6 @@
 # Alexa-rails
+![Ruby](https://github.com/voxable-labs/alexa-rails/workflows/Ruby/badge.svg)
+
 `alexa-rails` is a ruby gem which is a mountable rails engine that will add abilities to your Ruby on Rails application to handle Amazon alexa requests and responses.
 
 ## Intallation/Usage
