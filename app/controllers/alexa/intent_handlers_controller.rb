@@ -8,12 +8,16 @@ module Alexa
 
     def create
       @resp = nil
+      @display_card = true
+
       if alexa_request.valid?
         if alexa_request.intent_request?
           case alexa_request.intent_name
           when 'AMAZON.CancelIntent'
+            @display_card = false
             @resp = Alexa::IntentHandlers::GoodBye.new(alexa_context).handle
           when 'AMAZON.StopIntent'
+            @display_card = false
             @resp = Alexa::IntentHandlers::GoodBye.new(alexa_context).handle
           when 'AMAZON.HelpIntent'
             @resp = Alexa::IntentHandlers::Help.new(alexa_context).handle
