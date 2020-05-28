@@ -4,7 +4,7 @@
   "response": {
     "directives": <%= raw response.directives.to_json %>,
     "outputSpeech": <%= raw render(partial: 'alexa/output/ssml', locals: { response: response }) %>,
-    <% if @display_card %> %>"card": <%= raw render(partial: 'alexa/output/card', locals: { response: response }) %>,<% end %>
+    <% if @display_card %>"card": <%= raw render(partial: 'alexa/output/card', locals: { response: response }) %>,<% end %>
     <% if content_for(:repromt_ssml).present? %>
       "reprompt": {
         "outputSpeech": {

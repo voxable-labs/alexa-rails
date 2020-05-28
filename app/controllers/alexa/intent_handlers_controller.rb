@@ -30,6 +30,7 @@ module Alexa
         elsif alexa_request.launch_request?
           @resp = Alexa::IntentHandlers::LaunchApp.new(alexa_context).handle
         elsif alexa_request.session_ended_request?
+          @display_card = false
           @resp = Alexa::IntentHandlers::SessionEnd.new(alexa_context).handle
         end
       end
