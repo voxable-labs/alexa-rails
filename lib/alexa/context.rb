@@ -2,8 +2,9 @@ module Alexa
   class Context
     attr_accessor :request
 
-    def initialize(alexa_request)
+    def initialize(alexa_request, user: nil)
       @request = alexa_request
+      @_user = user
     end
 
     def user

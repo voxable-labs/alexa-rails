@@ -1,10 +1,11 @@
 module Alexa
   class Response
-    attr_accessor :intent, :directives
+    attr_accessor :intent, :directives, :locals
 
     def initialize(intent:, directives: [])
       @intent = intent
       @directives = directives
+      @locals = Hash[intent.instance_variables.collect { |v| [v, intent.instance_variable_get(v)] }]
       @slots_to_not_render_elicitation = []
     end
 

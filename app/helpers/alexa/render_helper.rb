@@ -8,7 +8,8 @@ module Alexa
         if alexa_response.is_a?(Alexa::Responses::Delegate)
           render json: alexa_response
         else
-          render partial: 'alexa/response.json', locals: { response: alexa_response }
+          render partial: 'alexa/response.json',
+                 locals: alexa_response.locals.merge(response: alexa_response)
         end
       end
     end
