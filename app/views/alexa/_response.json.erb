@@ -2,7 +2,17 @@
   "version": "1.0",
   "sessionAttributes": <%= raw (response.intent.session || {}).to_json %>,
   "response": {
-    "directives": <%= raw response.directives.to_json %>,
+    "directives": [<%=
+      apl_path = response.partial_path(format: :apl)
+
+      # TODO: This will break elicitation directives.
+      if File.exists?(Rails.root.join("app/views", apl_path))
+        raw render(
+          file: apl_path,
+          locals: { response: response }
+        )
+      end
+    %>],
     "outputSpeech": <%= raw render(partial: 'alexa/output/ssml', locals: { response: response }) %>,
     <% if @display_card %>"card": <%= raw render(partial: 'alexa/output/card', locals: { response: response }) %>,<% end %>
     <% if content_for(:repromt_ssml).present? %>

@@ -2,6 +2,10 @@ module Alexa
   class Response
     attr_accessor :intent, :directives, :locals
 
+    module Directives
+      RENDER_DOCUMENT = "Alexa.Presentation.APL.RenderDocument"
+    end
+
     def initialize(intent:, directives: [])
       @intent = intent
       @directives = directives
@@ -41,25 +45,17 @@ module Alexa
         filename = @force_template_filename
       end
 
+      # Determine the correct filename extension for the partial.
+      format_extension = format.to_s
+      format_extension = "json" if format == :apl
+
       if filename.present?
-        if format == :ssml
-          "#{partials_directory}/#{filename}.ssml.erb"
-        else
-          "#{partials_directory}/#{filename}.text.erb"
-        end
+        "#{partials_directory}/#{filename}.#{format_extension}.erb"
       else
         if slot_to_elicit.present? && !@slots_to_not_render_elicitation.include?(slot_to_elicit)
-          if format == :ssml
-            "#{partials_directory}/elicitations/#{slot_to_elicit.underscore}.ssml.erb"
-          else
-            "#{partials_directory}/elicitations/#{slot_to_elicit.underscore}.text.erb"
-          end
+          "#{partials_directory}/elicitations/#{slot_to_elicit.underscore}.#{format_extension}.erb"
         else
-          if format == :ssml
-            "#{partials_directory}/default.ssml.erb"
-          else
-            "#{partials_directory}/default.text.erb"
-          end
+          "#{partials_directory}/default.#{format_extension}.erb"
         end
       end
     end
