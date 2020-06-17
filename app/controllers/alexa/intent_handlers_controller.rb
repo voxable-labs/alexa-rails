@@ -16,6 +16,9 @@ module Alexa
           when 'AMAZON.CancelIntent'
             @display_card = false
             @resp = Alexa::IntentHandlers::GoodBye.new(alexa_context).handle
+          when 'AMAZON.FallbackIntent'
+            @display_card = false
+            @resp = Alexa::IntentHandlers::Fallback.new(alexa_context).handle
           when 'AMAZON.StopIntent'
             @display_card = false
             @resp = Alexa::IntentHandlers::GoodBye.new(alexa_context).handle
