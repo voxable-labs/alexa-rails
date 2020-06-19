@@ -90,19 +90,5 @@ module Alexa
     def context
       params["context"]
     end
-
-    # @return [Array<String>]
-    #   Supported display interfaces for this user's device.
-    #
-    # @see https://developer.amazon.com/en-US/docs/alexa/alexa-presentation-language/apl-support-for-your-skill.html#detect-apl
-    def supported_interfaces
-      context["System"]["supportedInterfaces"]
-    end
-
-    # @return [Boolean]
-    #   true if the user's device supports APL
-    def supports_apl?
-      supported_interfaces.has_key?(Response::Directives::RENDER_DOCUMENT)
-    end
   end
 end

@@ -15,12 +15,30 @@ module Alexa
       attributes["deviceId"]
     end
 
-    def audio_supported?
-      attributes["supportedInterfaces"].keys.include?("AudioPlayer")
+    # @return [Array<String>]
+    #   Supported display interfaces for this user's device.
+    #
+    # @see https://developer.amazon.com/en-US/docs/alexa/alexa-presentation-language/apl-support-for-your-skill.html#detect-apl
+    def supported_interfaces
+      attributes["supportedInterfaces"]
     end
 
+    # @return [Boolean]
+    #   true if device supports AudioPlayer interface
+    def audio_supported?
+      supported_interfaces.has_key?("AudioPlayer")
+    end
+
+    # @return [Boolean]
+    #   true if device supports video
     def video_supported?
-      attributes["supportedInterfaces"].keys.include?("VideoApp")
+      supported_interfaces.has_key?("VideoApp")
+    end
+
+    # @return [Boolean]
+    #   true if device supports APL
+    def apl_supported?
+      supported_interfaces.has_key?(Response::Directives::RENDER_DOCUMENT)
     end
 
     ##
