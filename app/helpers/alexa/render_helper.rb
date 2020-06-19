@@ -2,7 +2,7 @@ module Alexa
   module RenderHelper
     def respond_for_alexa_with(alexa_response)
       if alexa_response.nil?
-        render :not_found
+        head :not_found
       else
         # render json: alexa_response
         if alexa_response.is_a?(Alexa::Responses::Delegate)
