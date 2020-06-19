@@ -43,7 +43,7 @@ module Alexa
       end
 
       def response
-        @_response ||= Alexa::Response.new(intent: self)
+        @_response ||= Alexa::Response.new(intent: self, device: context.device)
       end
 
       def say_welcome?

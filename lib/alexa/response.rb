@@ -1,14 +1,15 @@
 module Alexa
   class Response
-    attr_accessor :intent, :directives, :locals
+    attr_accessor :intent, :directives, :locals, :device
 
     module Directives
       RENDER_DOCUMENT = "Alexa.Presentation.APL.RenderDocument"
     end
 
-    def initialize(intent:, directives: [])
+    def initialize(intent:, directives: [], device:)
       @intent = intent
       @directives = directives
+      @device = device
       @locals = Hash[intent.instance_variables.collect { |v| [v, intent.instance_variable_get(v)] }]
       @slots_to_not_render_elicitation = []
     end
