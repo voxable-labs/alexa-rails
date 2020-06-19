@@ -38,7 +38,7 @@ module Alexa
     # @return [Boolean]
     #   true if device supports APL
     def apl_supported?
-      supported_interfaces.has_key?(Response::Directives::RENDER_DOCUMENT)
+      supported_interfaces.has_key?("Alexa.Presentation.APL")
     end
 
     ##
