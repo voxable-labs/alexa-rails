@@ -25,6 +25,8 @@
         }
       },
     <% end %>
-    "shouldEndSession": <%= response.end_session? %>
+    <%- unless response.keep_screen_active? %>
+      "shouldEndSession": <%= response.end_session? %>
+    <%- end %>
   }
 }

@@ -76,6 +76,21 @@ module Alexa
       self
     end
 
+    # Direct the Alexa service to keep any information on the screen for 30 seconds
+    # without opening the mic by keeping shouldEndSession undefined.
+    #
+    # @return [self]
+    def keep_screen_active!
+      @keep_screen_active = true
+      self
+    end
+
+    # @return [Boolean]
+    #   true if the screen should stay active
+    def keep_screen_active?
+      @keep_screen_active == true
+    end
+
     def keep_listening?
       @keep_listening == true
     end
