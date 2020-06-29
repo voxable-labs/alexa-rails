@@ -21,6 +21,8 @@ module Alexa
       session.user_id
     end
 
+    # @return [String]
+    #   The type of the Alexa request.
     def type
       params["request"]["type"]
     end
@@ -35,6 +37,14 @@ module Alexa
 
     def session_ended_request?
       type == "SessionEndedRequest"
+    end
+
+    # @return [Boolean]
+    #   true if this is a Permission Accepted request
+    #
+    # @see https://developer.amazon.com/en-US/docs/alexa/smapi/skill-events-in-alexa-skills.html#skill-disabled-event
+    def permission_accepted?
+      type == "AlexaSkillEvent.SkillPermissionAccepted"
     end
 
     def help_request?
