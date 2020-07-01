@@ -2,6 +2,7 @@ require "alexa/engine"
 require 'alexa/context'
 require 'alexa/device'
 require 'alexa/request'
+require 'alexa/logger'
 require 'alexa/response'
 require 'alexa/session'
 require 'alexa/slot'

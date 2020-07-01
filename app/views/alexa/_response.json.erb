@@ -1,8 +1,44 @@
 {
   "version": "1.0",
-  "sessionAttributes": <%= raw (response.intent.session || {}).to_json %>,
+  "sessionAttributes": <%= raw(response.intent.session || {}).to_json.html_safe %>,
   "response": {
-    <%- if response.device.apl_supported? %>
+    <%- if response.directives.any? %>
+    "directives": <%= response.directives.to_json.html_safe %>,
+    <%- elsif response.audio_player? %>
+    "directives": [
+      {
+        "type": "AudioPlayer.Play",
+        "playBehavior": "<%= response.audio_play_behavior || "REPLACE_ALL" %>",
+        "audioItem": {
+          "stream": {
+            <%- if response.audio_url %>"url": "<%= response.audio_url %>",
+            <%- end %>
+            <%- if response.audio_token %>"token": "<%= response.audio_token %>",<%- end %>
+            <%- if response.audio_expected_previous_token  %>"expectedPreviousToken": "<%= response.audio_expected_previous_token %>",<%- end %>
+            "offsetInMilliseconds": <%= response.audio_offset&.to_i || 0 %>
+          },
+          "metadata": {
+            "title": "<%= response.audio_title %>",
+            "subtitle": "<%= response.audio_subtitle %>",
+            "art": {
+              "sources": [
+                {
+                  "url": "<%= response.audio_foreground_image_url %>"
+                }
+              ]
+            },
+            "backgroundImage": {
+              "sources": [
+                {
+                  "url": "<%= response.audio_background_image_url %>"
+                }
+              ]
+            }
+          }
+        }
+      }
+    ],
+    <%- elsif response.device.apl_supported? %>
       "directives": [<%=
         apl_path = response.partial_path(format: :apl)
 
@@ -15,7 +51,7 @@
         end
       %>],
     <%- end %>
-    "outputSpeech": <%= raw render(partial: 'alexa/output/ssml', locals: { response: response }) %>,
+    <%- unless response.audio_player?  %>"outputSpeech": <%= raw render(partial: 'alexa/output/ssml', locals: { response: response }) %>,<%- end %>
     <% if false %>"card": <%= raw render(partial: 'alexa/output/card', locals: { response: response }) %>,<% end %>
     <% if content_for(:repromt_ssml).present? %>
       "reprompt": {

@@ -1,6 +1,10 @@
 module Alexa
   class Response
-    attr_accessor :intent, :directives, :locals, :device
+    attr_accessor :intent, :directives, :locals, :device,
+      :audio_url, :audio_play_behavior, :audio_token,
+      :audio_expected_previous_token, :audio_offset,
+      :audio_title, :audio_subtitle, :audio_foreground_image_url,
+      :audio_background_image_url
 
     module Directives
       RENDER_DOCUMENT = "Alexa.Presentation.APL.RenderDocument"
@@ -71,9 +75,18 @@ module Alexa
       directives.select { |directive| directive[:type] == "Dialog.ElicitSlot" }
     end
 
-    def keep_listening!
-      @keep_listening = true
+    # Mark this response as using an AudioPlayer interface directive.
+    #
+    # @return [self]
+    def audio_player!
+      @audio_player = true
       self
+    end
+
+    # @return [Boolean]
+    #   true if this is an AudioPlayer directive response
+    def audio_player?
+      @audio_player == true
     end
 
     # Direct the Alexa service to keep any information on the screen for 30 seconds
@@ -89,6 +102,11 @@ module Alexa
     #   true if the screen should stay active
     def keep_screen_active?
       @keep_screen_active == true
+    end
+
+    def keep_listening!
+      @keep_listening = true
+      self
     end
 
     def keep_listening?

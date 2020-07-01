@@ -22,9 +22,9 @@ module Alexa
       #
       # @param [String] broadcast_id
       #   A unique ID used to reference this broadcast.
-      # @param [DateTime] timestamp
+      # @param [DateTime, ActiveSupport::TimeWithZone] timestamp
       #   The timestamp for this broadcast event. (default: now)
-      # @param [DateTime] expiry
+      # @param [DateTime, ActiveSupport::TimeWithZone] expiry
       #   When this broadcast expires. (default: 24 hours from now)
       # @return [String] status
       #   The status of the message alert. One of `'UNREAD'`, `'FLAGGED'`.

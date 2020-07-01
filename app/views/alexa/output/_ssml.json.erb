@@ -1,3 +1,6 @@
+<%- if @resp.audio_player? %>
+{}
+<%- else %>
 {
   "type": "SSML",
   "ssml": "<%= raw render(
@@ -5,3 +8,4 @@
     locals: { response: response }
   ).gsub(/\n/, "").gsub(/\"/, '\"') %>"
 }
+<%- end %>

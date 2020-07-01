@@ -19,6 +19,10 @@ module Alexa
           when 'AMAZON.FallbackIntent'
             @display_card = false
             @resp = Alexa::IntentHandlers::Fallback.new(alexa_context).handle
+          when 'AMAZON.PauseIntent'
+            use_pause_intent
+          when 'AMAZON.ResumeIntent'
+            use_resume_intent
           when 'AMAZON.StopIntent'
             @display_card = false
             @resp = Alexa::IntentHandlers::GoodBye.new(alexa_context).handle
@@ -35,6 +39,13 @@ module Alexa
         elsif alexa_request.session_ended_request?
           @display_card = false
           @resp = Alexa::IntentHandlers::SessionEnd.new(alexa_context).handle
+        elsif alexa_request.playback_request?
+          case alexa_request.type
+          when 'PlaybackController.PlayCommandIssued'
+            use_resume_intent
+          when 'PlaybackController.PauseCommandIssued'
+            use_pause_intent
+          end
         end
       end
 
@@ -52,6 +63,16 @@ module Alexa
 
     helper_method def context
       alexa_context
+    end
+
+    private def use_resume_intent
+      @display_card = false
+      @resp = Alexa::IntentHandlers::Resume.new(alexa_context).handle
+    end
+
+    private def use_pause_intent
+      @display_card = false
+      @resp = Alexa::IntentHandlers::Pause.new(alexa_context).handle
     end
   end
 end
