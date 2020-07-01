@@ -16,7 +16,7 @@ module Alexa
   class Session < HashWithIndifferentAccess
     def initialize(session={})
       @variables = session
-      super(session["attributes"])
+      super((session && session["attributes"] ) || {})
     end
 
     # Get the elicitation count of a slot.
@@ -54,12 +54,12 @@ module Alexa
 
     # Get application's ID from session
     def application_id
-      @variables["application"]["applicationId"]
+      @variables&.dig("application", "applicationId")
     end
 
     # Get Amazon user's ID from session
     def user_id
-      @variables["user"]["userId"]
+      @variables&.dig('user', 'userId')
     end
   end
 end

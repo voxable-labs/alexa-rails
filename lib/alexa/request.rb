@@ -14,11 +14,17 @@ module Alexa
     end
 
     def application_id
-      session.application_id
+      application_id   = session.application_id
+      application_id ||= context['System']['application']['applicationId']
+
+      application_id
     end
 
     def user_id
-      session.user_id
+      user_id   = session.user_id
+      user_id ||= context['System']['application']['userId']
+
+      user_id
     end
 
     # @return [String]
@@ -40,6 +46,12 @@ module Alexa
     end
 
     # @return [Boolean]
+    #   true if this is a Plackback Controller request
+    def playback_request?
+      type.include?("PlaybackController")
+    end
+
+    # @return [Boolean]
     #   true if this is a Permission Accepted request
     #
     # @see https://developer.amazon.com/en-US/docs/alexa/smapi/skill-events-in-alexa-skills.html#skill-disabled-event
@@ -56,7 +68,7 @@ module Alexa
     end
 
     def session
-      @_session ||= Alexa::Session.new(params["session"].dup)
+      @_session ||= Alexa::Session.new(params && params["session"].dup)
     end
 
     def slots
