@@ -7,10 +7,10 @@ module Alexa
     skip_before_action :verify_authenticity_token
 
     def create
-      @resp = nil
-      @display_card = true
+      @resp ||= nil
+      @display_card ||= true
 
-      if alexa_request.valid?
+      if alexa_request.valid? && !@resp
         if alexa_request.intent_request?
           case alexa_request.intent_name
           when 'AMAZON.CancelIntent'
