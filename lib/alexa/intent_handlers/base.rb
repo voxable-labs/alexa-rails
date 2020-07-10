@@ -24,6 +24,9 @@ module Alexa
         end
       end
 
+      include ActiveSupport::Callbacks
+      define_callbacks :handle
+
       attr_accessor :context
 
       def initialize(alexa_context)
