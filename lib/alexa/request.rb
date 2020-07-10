@@ -30,7 +30,11 @@ module Alexa
     # @return [String]
     #   The type of the Alexa request.
     def type
-      params["request"]["type"]
+      @_type ||= params["request"]["type"]
+    end
+
+    def launch_request!
+      @_type = "LaunchRequest"
     end
 
     def intent_request?
@@ -76,6 +80,8 @@ module Alexa
                     if intent_request?
                       return [] if help_request?
                       return [] if cancel_request?
+
+                      return [] unless params.dig('request', 'intent', 'slots')
 
                       params["request"]["intent"]["slots"]
                         .inject(HashWithIndifferentAccess.new) do |hash, slot|
