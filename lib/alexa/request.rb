@@ -90,6 +90,10 @@ module Alexa
                   end
     end
 
+    def slots=(new_slots)
+      @_slots = new_slots
+    end
+
     def dialog_state
       params["request"]["dialogState"]
     end
@@ -100,7 +104,11 @@ module Alexa
 
     def intent_name
       return nil if !intent_request?
-      params["request"]["intent"]["name"]
+      @_intent_name ||= params["request"]["intent"]["name"]
+    end
+
+    def intent_name=(new_intent_name)
+      @_intent_name = new_intent_name
     end
 
     def locale
