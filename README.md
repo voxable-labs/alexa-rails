@@ -69,8 +69,10 @@ module Alexa
   module IntentHandlers
     class PlaceOrder < Alexa::IntentHandlers::Base
       def handle
-        ...
-        response # intent handlers should always return the +response+ object
+        run_callbacks :handle do
+          ...
+          response # intent handlers should always return the +response+ object
+        end
       end
     end
   end
@@ -114,8 +116,10 @@ In cases where the slots elicitation is delegated to alexa, an instance of
 
 ```ruby
   def handle
-    ...
-    return Alexa::Responses::Delegate.new
+    run_callbacks :handle
+      ...
+      return Alexa::Responses::Delegate.new
+    end
   end
 ```
 
