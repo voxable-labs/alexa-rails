@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "sessionAttributes": <%= raw(response.intent.session || {}).to_json.html_safe %>,
+  "sessionAttributes": <%= (response.intent.session || {}).to_json.html_safe %>,
   "response": {
     <%- if response.directives.any? %>
     "directives": <%= response.directives.to_json.html_safe %>,
