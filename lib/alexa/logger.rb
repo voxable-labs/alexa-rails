@@ -13,7 +13,14 @@ module Alexa
       if req.path == '/alexa/intent_handlers'
         Rails.logger.debug @formatting_char * 50
         Rails.logger.debug "Alexa response\n\n"
-        Rails.logger.debug JSON.pretty_generate(JSON.parse(@response.body)) unless @response.body.blank?
+
+        begin
+          Rails.logger.debug JSON.pretty_generate(JSON.parse(@response.body)) unless @response.body.blank?
+        rescue JSON::ParserError
+          Rails.logger.error 'JSON error'
+          Rails.logger.error @response.body
+        end
+
         Rails.logger.debug @formatting_char * 50
       end
 
