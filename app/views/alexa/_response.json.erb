@@ -37,7 +37,7 @@
           }
         }
       }
-    ],
+    ]
     <%- elsif response.device.apl_supported? %>
       "directives": [<%=
         apl_path = response.partial_path(format: :apl)
@@ -49,20 +49,20 @@
             locals: { response: response }
           )
         end
-      %>],
+      %>]
     <%- end %>
-    <%- unless response.audio_player?  %>"outputSpeech": <%= raw render(partial: 'alexa/output/ssml', locals: { response: response }) %>,<%- end %>
-    <% if false %>"card": <%= raw render(partial: 'alexa/output/card', locals: { response: response }) %>,<% end %>
+    <%- unless response.audio_player?  %>, "outputSpeech": <%= raw render(partial: 'alexa/output/ssml', locals: { response: response }) %><%- end %>
+    <% if false %>, "card": <%= raw render(partial: 'alexa/output/card', locals: { response: response }) %><% end %>
     <% if content_for(:repromt_ssml).present? %>
-      "reprompt": {
+      , "reprompt": {
         "outputSpeech": {
           "type": "SSML",
           "ssml": <%= raw content_for(:repromt_ssml).strip.gsub(/\n/, "").to_json %>
         }
-      },
+      }
     <% end %>
     <%- unless response.keep_screen_active? %>
-      "shouldEndSession": <%= response.end_session? %>
+      , "shouldEndSession": <%= response.end_session? %>
     <%- end %>
   }
 }
